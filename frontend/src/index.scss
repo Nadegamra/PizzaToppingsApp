@@ -1,0 +1,48 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  [data-theme='light'] {
+      --color-bg-primary: #f1f4f7;
+      --color-bg-secondary: #e7eaee;
+      --color-bg-tertiary: #dbe1e6;
+      --color-bg-quaternary: #cbd3d8;
+      --color-bg-extra: rgb(20, 50, 255);
+      --color-text-primary: black;
+      --color-text-secondary: rgb(107 114 128);
+      --color-text-tertiary: rgb(229 231 235);
+      --color-text-hover: rgb(37 99 235);
+      --color-text-link: rgb(37 99 235);
+      --color-border: rgb(209 213 219);
+  }
+  [data-theme='dark'] {
+      --color-bg-primary: #232b3d;
+      --color-bg-secondary: #1d2433;
+      --color-bg-tertiary: #11151f;
+      --color-bg-quaternary: #0a0d13;
+      --color-bg-extra: rgb(20, 50, 255);
+      --color-text-primary: white;
+      --color-text-secondary: rgb(209 213 219);
+      --color-text-tertiary: rgb(75 85 99);
+      --color-text-hover: rgb(37 99 235);
+      --color-text-link: rgb(37 99 235);
+      --color-border: rgb(75 85 99);
+  }
+}
