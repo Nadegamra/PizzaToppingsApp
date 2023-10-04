@@ -20,7 +20,7 @@ namespace Backend.API.Controllers
         {
             try
             {
-                var result = handler.GetPizzaListAsync();
+                var result = await handler.GetPizzaListAsync();
                 return Ok(result);
             }
             catch (Exception ex)

@@ -21,7 +21,7 @@ namespace Backend.API.Controllers
         {
             try
             {
-                var result = handler.AddOrderAsync(req);
+                var result = await handler.AddOrderAsync(req);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -35,7 +35,7 @@ namespace Backend.API.Controllers
         {
             try
             {
-                var result = handler.GetOrderAsync(id);
+                var result = await handler.GetOrderAsync(id);
                 return Ok(result);
             }
             catch (Exception ex)

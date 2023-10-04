@@ -1,5 +1,6 @@
 using Backend.API.Data;
 using Backend.API.Data.DTOs;
+using Backend.API.Data.Enums;
 using Backend.API.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,11 @@ namespace Backend.API.Handlers
 
         public async Task<bool> AddOrderAsync(AddOrderRequest req)
         {
-            Order order = new Order { PizzaId = req.PizzaId };
+            decimal pizzaPrice = GetPizzaPriceBySize(req.PizzaSize) + req.ToppingIds.Count();
+            int discountPercentage = req.ToppingIds.Count > 3 ? 10 : 0;
+            decimal finalPrice = pizzaPrice * (100 - discountPercentage) / 100;
+
+            Order order = new Order { PizzaId = req.PizzaId, PizzaSize = req.PizzaSize, DiscountPercentage = discountPercentage, Price = pizzaPrice, DiscountedPrice = finalPrice };
             var res = await dbContext.Orders.AddAsync(order);
 
             List<OrderTopping> orderToppings = new List<OrderTopping>();
@@ -43,6 +48,10 @@ namespace Backend.API.Handlers
             {
                 Id = order.Id,
                 PizzaId = order.PizzaId,
+                Price = order.Price,
+                DiscountPercentage = order.DiscountPercentage,
+                DiscountedPrice = order.DiscountedPrice,
+                PizzaSize = order.PizzaSize,
                 OrderToppings = order.OrderToppings.Select(o => o.Topping).ToList()
             };
         }
@@ -52,11 +61,30 @@ namespace Backend.API.Handlers
             {
                 Id = o.Id,
                 PizzaId = o.PizzaId,
+                Price = o.Price,
+                DiscountPercentage = o.DiscountPercentage,
+                DiscountedPrice = o.DiscountedPrice,
+                PizzaSize = o.PizzaSize,
                 OrderToppings = o
                     .OrderToppings
                     .Select(ot => ot.Topping).ToList()
 
             }).ToListAsync();
+        }
+
+        private decimal GetPizzaPriceBySize(PizzaSize size)
+        {
+            switch (size)
+            {
+                case PizzaSize.Small:
+                    return 8;
+                case PizzaSize.Medium:
+                    return 10;
+                case PizzaSize.Large:
+                    return 12;
+                default:
+                    throw new Exception("Invalid pizza size");
+            }
         }
 
     }
