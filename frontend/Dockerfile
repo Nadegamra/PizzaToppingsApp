@@ -8,7 +8,7 @@ FROM base AS dev
 RUN npm init --yes
 RUN npm i
 COPY ./frontend .
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]
 #-----------------------------
 FROM base AS production
 ENV NODE_ENV production

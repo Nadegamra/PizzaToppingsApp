@@ -2,23 +2,23 @@ version: '3.7'
 name: pizza
 
 services:
-  # frontend_cra:
-  #   container_name: pizza_frontend
-  #   image: pizza_frontend:dev
-  #   restart: unless-stopped
-  #   build:
-  #     context: .
-  #     dockerfile: Frontend/Dockerfile
-  #     target: dev
-  #   volumes:
-  #     - './Frontend:/app'
-  #     - '/app/node_modules'
-  #   ports:
-  #     - 3000:3000
-  #   environment:
-  #     - WDS_SOCKET_HOST=127.0.0.1 
-  #     - CHOKIDAR_USEPOLLING=true
-  #     - WATCHPACK_POLLING=true
+  frontend_cra:
+    container_name: pizza_frontend
+    image: pizza_frontend:dev
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      target: dev
+    volumes:
+      - './frontend:/app'
+      - '/app/node_modules'
+    ports:
+      - 3000:3000
+    environment:
+      - WDS_SOCKET_HOST=127.0.0.1 
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
   backend:
     container_name: pizza_api
     image: pizza_api:dev
