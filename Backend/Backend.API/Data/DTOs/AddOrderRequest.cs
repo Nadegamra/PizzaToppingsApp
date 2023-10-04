@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Backend.API.Data.Enums;
+using Backend.API.Data.Models;
 
 namespace Backend.API.Data.DTOs
 {
@@ -11,5 +8,14 @@ namespace Backend.API.Data.DTOs
         public int PizzaId { get; set; }
         public PizzaSize PizzaSize { get; set; }
         public ICollection<int> ToppingIds { get; set; }
+
+        public Order ToEntity()
+        {
+            return new Order
+            {
+                PizzaId = PizzaId,
+                PizzaSize = PizzaSize,
+            };
+        }
     }
 }

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Backend.API.Data.Enums;
 
 namespace Backend.API.Data.Models
@@ -7,10 +8,10 @@ namespace Backend.API.Data.Models
     {
         [Key]
         public int Id { get; set; }
+        [ForeignKey("Pizza")]
         public int PizzaId { get; set; }
-        public int DiscountPercentage { get; set; }
+        public Pizza Pizza { get; set; }
         public decimal Price { get; set; }
-        public decimal DiscountedPrice { get; set; }
         public PizzaSize PizzaSize { get; set; }
         public List<OrderTopping> OrderToppings { get; set; }
     }

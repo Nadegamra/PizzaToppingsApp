@@ -17,11 +17,9 @@ namespace Backend.API.Handlers
 
         public async Task<bool> AddOrderAsync(AddOrderRequest req)
         {
-            decimal pizzaPrice = GetPizzaPriceBySize(req.PizzaSize) + req.ToppingIds.Count();
-            int discountPercentage = req.ToppingIds.Count > 3 ? 10 : 0;
-            decimal finalPrice = pizzaPrice * (100 - discountPercentage) / 100;
+            Order order = req.ToEntity();
+            order.Price = CalculateFinalPrice(req);
 
-            Order order = new Order { PizzaId = req.PizzaId, PizzaSize = req.PizzaSize, DiscountPercentage = discountPercentage, Price = pizzaPrice, DiscountedPrice = finalPrice };
             var res = await dbContext.Orders.AddAsync(order);
 
             List<OrderTopping> orderToppings = new List<OrderTopping>();
@@ -38,38 +36,32 @@ namespace Backend.API.Handlers
         }
         public async Task<OrderResponse> GetOrderAsync(int id)
         {
-            Order? order = dbContext.Orders.Include(x => x.OrderToppings).ThenInclude(x => x.Topping).Where(x => x.Id == id).FirstOrDefault();
-            if (order == null)
+            Order? order = dbContext.Orders
+                            .Include(x => x.OrderToppings).ThenInclude(x => x.Topping)
+                            .Include(x => x.Pizza)
+                            .Where(x => x.Id == id)
+                            .FirstOrDefault();
+
+            if (order is null)
             {
                 throw new Exception($"Order with id = {id} does not exist");
             }
 
-            return new OrderResponse
-            {
-                Id = order.Id,
-                PizzaId = order.PizzaId,
-                Price = order.Price,
-                DiscountPercentage = order.DiscountPercentage,
-                DiscountedPrice = order.DiscountedPrice,
-                PizzaSize = order.PizzaSize,
-                OrderToppings = order.OrderToppings.Select(o => o.Topping).ToList()
-            };
+            return OrderResponse.FromEntity(order);
         }
         public async Task<IEnumerable<OrderResponse>> GetOrderListAsync()
         {
-            return await dbContext.Orders.Select(o => new OrderResponse
-            {
-                Id = o.Id,
-                PizzaId = o.PizzaId,
-                Price = o.Price,
-                DiscountPercentage = o.DiscountPercentage,
-                DiscountedPrice = o.DiscountedPrice,
-                PizzaSize = o.PizzaSize,
-                OrderToppings = o
-                    .OrderToppings
-                    .Select(ot => ot.Topping).ToList()
-
-            }).ToListAsync();
+            return await dbContext.Orders
+                            .Include(x => x.OrderToppings).ThenInclude(x => x.Topping)
+                            .Include(x => x.Pizza)
+                            .Select(o => OrderResponse.FromEntity(o))
+                            .ToListAsync();
+        }
+        private decimal CalculateFinalPrice(AddOrderRequest req)
+        {
+            decimal pizzaPrice = GetPizzaPriceBySize(req.PizzaSize) + req.ToppingIds.Count() * Config.ToppingPrice;
+            int discountPercentage = req.ToppingIds.Count > Config.DiscountThreshold ? Config.DiscountPercentage : 0;
+            return pizzaPrice * (100 - discountPercentage) / 100;
         }
 
         private decimal GetPizzaPriceBySize(PizzaSize size)
@@ -77,15 +69,14 @@ namespace Backend.API.Handlers
             switch (size)
             {
                 case PizzaSize.Small:
-                    return 8;
+                    return Config.SmallPizzaSize;
                 case PizzaSize.Medium:
-                    return 10;
+                    return Config.MediumPizzaSize;
                 case PizzaSize.Large:
-                    return 12;
+                    return Config.LargePizzaSize;
                 default:
                     throw new Exception("Invalid pizza size");
             }
         }
-
     }
 }

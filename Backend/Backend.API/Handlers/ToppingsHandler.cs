@@ -1,4 +1,3 @@
-using System.Drawing;
 using Backend.API.Data;
 using Backend.API.Data.Models;
 using Microsoft.EntityFrameworkCore;
