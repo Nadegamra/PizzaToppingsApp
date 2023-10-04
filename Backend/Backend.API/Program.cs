@@ -15,10 +15,15 @@ var services = builder.Services;
     services.AddSwaggerGen();
 
     services.AddTransient<OrdersHandler>();
+    services.AddTransient<PizzasHandler>();
+    services.AddTransient<ToppingsHandler>();
+
 }
 
 var app = builder.Build();
 {
+
+
     // Fill database with default data
     using (var scope = app.Services.CreateScope())
     {
@@ -33,8 +38,6 @@ var app = builder.Build();
         app.UseSwagger();
         app.UseSwaggerUI();
     }
-
-    // app.UseHttpsRedirection();
 
     app.UseAuthorization();
 

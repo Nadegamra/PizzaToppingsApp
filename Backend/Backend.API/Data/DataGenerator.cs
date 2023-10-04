@@ -4,7 +4,7 @@ namespace Backend.API.Data
 {
     public class DataGenerator
     {
-        public static void Initialize(IServiceProvider serviceProvider)
+        public static async void Initialize(IServiceProvider serviceProvider)
         {
             using (var context = new AppDbContext(serviceProvider.GetRequiredService<DbContextOptions<AppDbContext>>()))
             {
@@ -16,6 +16,8 @@ namespace Backend.API.Data
                 {
                     context.Toppings.AddRange(DefaultData.GetToppings());
                 }
+
+                await context.SaveChangesAsync();
             }
         }
     }

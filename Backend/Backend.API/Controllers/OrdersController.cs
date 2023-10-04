@@ -31,7 +31,7 @@ namespace Backend.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<Order>> GetOrderAsync(int id)
+        public async Task<ActionResult<OrderResponse>> GetOrderAsync(int id)
         {
             try
             {
@@ -45,11 +45,11 @@ namespace Backend.API.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<List<Order>>> GetOrderListAsync()
+        public async Task<ActionResult<List<OrderResponse>>> GetOrderListAsync()
         {
             try
             {
-                var result = handler.GetOrderListAsync();
+                var result = await handler.GetOrderListAsync();
                 return Ok(result);
             }
             catch (Exception ex)
