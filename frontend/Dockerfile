@@ -5,15 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 #----------------------------
 FROM base AS dev
-RUN npm init --yes
-RUN npm i
 COPY ./frontend .
+RUN npm i
 CMD ["npm", "run", "dev"]
 #-----------------------------
-FROM base AS production
-ENV NODE_ENV production
-RUN npm ci --only=production
-USER node
-COPY . .
-EXPOSE 3000
-CMD ["npm", "run", "build"]

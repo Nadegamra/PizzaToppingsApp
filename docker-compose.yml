@@ -11,7 +11,8 @@ services:
       dockerfile: frontend/Dockerfile
       target: dev
     volumes:
-      - './frontend:/app'
+      - ./frontend:/app
+      - /app/node_modules
     ports:
       - 3000:3000
     environment:

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6j8SPohEONVb6vhAvL4yaYYbTJGF3IX4hS/1OANDsbSiAD8lIP4rRU2wZrYh1i475JEhnBOHyNpP6YC9oPUx1Q==",
+  "dgSpecHash": "m71YL22dxmlBW4UPmDmBo7vQ+9Uztzgec4T52sLoqIiO5gu/7eMCEBp45FhRDXSaE+YeSv34plNmAxC41V8jZA==",
   "success": true,
-  "projectFilePath": "/home/karolis/Github/Projects/PresentConnectionInternship/Backend/Backend.API/Backend.API.csproj",
+  "projectFilePath": "/home/karolis/Github/PresentConnectionInternship/Backend/Backend.API/Backend.API.csproj",
   "expectedPackageFiles": [
     "/home/karolis/.nuget/packages/microsoft.aspnetcore.openapi/7.0.11/microsoft.aspnetcore.openapi.7.0.11.nupkg.sha512",
     "/home/karolis/.nuget/packages/microsoft.entityframeworkcore/7.0.11/microsoft.entityframeworkcore.7.0.11.nupkg.sha512",
