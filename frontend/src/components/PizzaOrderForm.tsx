@@ -27,6 +27,14 @@ function PizzaOrderForm({ pizzaId }: { pizzaId: number }) {
     formState,
   } = useForm<FormProps>();
 
+  useEffect(() => {
+    const defaultValues: FormProps = {
+      pizzaSize: PizzaSize.Small,
+      toppingIds: [],
+    };
+    reset({ ...defaultValues });
+  }, []);
+
   const calculateOrderPrice = useMemo(() => {
     const props = getValues();
     const size = props.pizzaSize;
@@ -64,6 +72,7 @@ function PizzaOrderForm({ pizzaId }: { pizzaId: number }) {
           <legend className="mb-4 font-bold">Select the pizza size</legend>
           <div className="flex items-center gap-2">
             <Radio
+              defaultChecked
               onClick={() => setValue("pizzaSize", PizzaSize.Small)}
               className="cursor-pointer"
               id="small"
@@ -100,7 +109,7 @@ function PizzaOrderForm({ pizzaId }: { pizzaId: number }) {
           </div>
           <legend className="font-bold">
             Select toppings
-            <span className="text-clr-text2 text-fs-h4 ml-3">
+            <span className="text-clr-text2 text-fs-h4 ml-3 text-clr-success">
               (10% off with 4 or more)
             </span>
           </legend>
@@ -129,14 +138,14 @@ function PizzaOrderForm({ pizzaId }: { pizzaId: number }) {
             addOrder(request)
               .unwrap()
               .then(() => {
-                // toast.success("Order submitted successfully");
+                toast.success("Order submitted successfully");
               })
               .catch(() => {
-                // toast.error("An error has occured");
+                toast.error("An error has occured");
               });
           })}
         >
-          Order
+          Save Order
         </Button>
         <div className="flex-1" />
         <div className="text-clr-text1 font-bold text-fs-h1 pr-10">
