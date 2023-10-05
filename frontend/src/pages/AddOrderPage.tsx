@@ -1,5 +1,5 @@
 import React from "react";
-import PizzaCard from "../components/PizzaCard";
+import PizzaCard from "./orderListPage/PizzaCard";
 import { useGetPizzasQuery } from "../data/redux/ApiSlice";
 
 function AddOrderPage() {

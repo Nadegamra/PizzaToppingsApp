@@ -1,13 +1,14 @@
 import { Button, Checkbox, Label, Modal, Radio } from "flowbite-react";
+
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { useEffect, useMemo } from "react";
+import { PizzaSize } from "../../data/dtos/OrderResponse";
 import {
   useAddOrderMutation,
   useGetToppingsQuery,
-} from "../data/redux/ApiSlice";
-import { PizzaSize } from "../data/dtos/OrderResponse";
-import { useForm } from "react-hook-form";
-import { AddOrderRequest } from "../data/dtos/AddOrderRequest";
-import { toast } from "react-toastify";
-import { useEffect, useMemo } from "react";
+} from "../../data/redux/ApiSlice";
+import { AddOrderRequest } from "../../data/dtos/AddOrderRequest";
 
 interface FormProps {
   pizzaSize: PizzaSize;
@@ -17,15 +18,8 @@ interface FormProps {
 function PizzaOrderForm({ pizzaId }: { pizzaId: number }) {
   const { data: toppings } = useGetToppingsQuery(undefined);
   const [addOrder] = useAddOrderMutation();
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
-    watch,
-    reset,
-    formState,
-  } = useForm<FormProps>();
+  const { register, handleSubmit, setValue, getValues, watch, reset } =
+    useForm<FormProps>();
 
   useEffect(() => {
     const defaultValues: FormProps = {
@@ -109,7 +103,7 @@ function PizzaOrderForm({ pizzaId }: { pizzaId: number }) {
           </div>
           <legend className="font-bold">
             Select toppings
-            <span className="text-clr-text2 text-fs-h4 ml-3 text-clr-success">
+            <span className="text-clr-text2 text-fs-h4 ml-3">
               (10% off with 4 or more)
             </span>
           </legend>

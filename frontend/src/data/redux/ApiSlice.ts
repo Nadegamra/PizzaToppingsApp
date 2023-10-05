@@ -27,12 +27,14 @@ const apiSlice = createApi({
         url: "http://localhost:44444/api/orders/all",
         method: "GET",
       }),
+      providesTags: ["ORDER"],
     }),
     getOrder: builder.query<OrderResponse, number>({
       query: (id) => ({
         url: `http://localhost:44444/api/orders?id=${id}`,
         method: "GET",
       }),
+      providesTags: ["ORDER"],
     }),
     addOrder: builder.mutation<boolean, AddOrderRequest>({
       query: (request) => ({
@@ -43,6 +45,7 @@ const apiSlice = createApi({
           "Content-Type": "application/json",
         },
       }),
+      invalidatesTags: ["ORDER"],
     }),
   }),
 });

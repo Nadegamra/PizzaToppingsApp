@@ -1,7 +1,6 @@
-import { Button, Checkbox, Label, Modal, Radio } from "flowbite-react";
-import { Pizza } from "../data/dtos/Pizza";
-import { useGetToppingsQuery } from "../data/redux/ApiSlice";
+import { Modal } from "flowbite-react";
 import PizzaOrderForm from "./PizzaOrderForm";
+import { Pizza } from "../../data/dtos/Pizza";
 
 interface Props {
   openModal: boolean;
@@ -10,8 +9,6 @@ interface Props {
 }
 
 function PizzaOrderModal({ openModal, setOpenModal, pizza }: Props) {
-  const { data: toppings } = useGetToppingsQuery(undefined);
-
   return (
     <>
       <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>

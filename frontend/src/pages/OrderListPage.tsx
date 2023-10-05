@@ -1,6 +1,6 @@
 import React from "react";
 import { useGetOrdersQuery } from "../data/redux/ApiSlice";
-import OrderCard from "../components/OrderCard";
+import OrderCard from "./orderListPage/OrderCard";
 
 function OrderListPage() {
   const { data } = useGetOrdersQuery(undefined);

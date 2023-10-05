@@ -1,4 +1,4 @@
-import { OrderResponse, PizzaSize } from "../data/dtos/OrderResponse";
+import { OrderResponse, PizzaSize } from "../../data/dtos/OrderResponse";
 
 interface Props {
   order: OrderResponse;
