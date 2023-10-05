@@ -6,6 +6,8 @@ import {
 import { PizzaSize } from "../data/dtos/OrderResponse";
 import { useForm } from "react-hook-form";
 import { AddOrderRequest } from "../data/dtos/AddOrderRequest";
+import { toast } from "react-toastify";
+import { useEffect, useMemo } from "react";
 
 interface FormProps {
   pizzaSize: PizzaSize;
@@ -18,9 +20,40 @@ function PizzaOrderForm({ pizzaId }: { pizzaId: number }) {
   const {
     register,
     handleSubmit,
+    setValue,
+    getValues,
+    watch,
     reset,
-    formState: { errors },
+    formState,
   } = useForm<FormProps>();
+
+  const calculateOrderPrice = useMemo(() => {
+    const props = getValues();
+    const size = props.pizzaSize;
+    const toppings = props.toppingIds;
+    let price = 0;
+
+    switch (size) {
+      case PizzaSize.Small:
+        price += 8;
+        break;
+      case PizzaSize.Medium:
+        price += 10;
+        break;
+      case PizzaSize.Large:
+        price += 12;
+        break;
+    }
+
+    price += toppings?.length ?? 0;
+
+    if ((toppings?.length ?? 0) > 3) {
+      price *= 0.9;
+    }
+
+    return price;
+  }, [watch("pizzaSize"), watch("toppingIds")]);
+
   return (
     <>
       <Modal.Body>
@@ -31,12 +64,11 @@ function PizzaOrderForm({ pizzaId }: { pizzaId: number }) {
           <legend className="mb-4 font-bold">Select the pizza size</legend>
           <div className="flex items-center gap-2">
             <Radio
-              defaultChecked
-              {...register("pizzaSize")}
+              onClick={() => setValue("pizzaSize", PizzaSize.Small)}
               className="cursor-pointer"
               id="small"
               name="size"
-              value={1}
+              value={PizzaSize.Small}
             />
             <Label className="cursor-pointer" htmlFor="small">
               Small
@@ -44,11 +76,11 @@ function PizzaOrderForm({ pizzaId }: { pizzaId: number }) {
           </div>
           <div className="flex items-center gap-2">
             <Radio
-              {...register("pizzaSize")}
+              onClick={() => setValue("pizzaSize", PizzaSize.Medium)}
               className="cursor-pointer"
               id="medium"
               name="size"
-              value={2}
+              value={PizzaSize.Medium}
             />
             <Label className="cursor-pointer" htmlFor="medium">
               Medium
@@ -56,17 +88,22 @@ function PizzaOrderForm({ pizzaId }: { pizzaId: number }) {
           </div>
           <div className="flex items-center gap-2">
             <Radio
-              {...register("pizzaSize")}
+              onClick={() => setValue("pizzaSize", PizzaSize.Large)}
               className="cursor-pointer"
               id="large"
               name="size"
-              value={3}
+              value={PizzaSize.Large}
             />
             <Label className="cursor-pointer" htmlFor="large">
               Large
             </Label>
           </div>
-          <legend className="mb-4 font-bold">Select toppings</legend>
+          <legend className="font-bold">
+            Select toppings
+            <span className="text-clr-text2 text-fs-h4 ml-3">
+              (10% off with 4 or more)
+            </span>
+          </legend>
           {toppings?.map((x) => (
             <div key={x.id} className="flex items-center gap-2">
               <Checkbox
@@ -82,18 +119,29 @@ function PizzaOrderForm({ pizzaId }: { pizzaId: number }) {
           ))}
         </fieldset>
       </Modal.Body>
-      <Modal.Footer>
+      <Modal.Footer className="flex flex-row">
         <Button
           color="blue"
           className="text-clr-text1"
           onClick={handleSubmit(({ pizzaSize, toppingIds }) => {
             const request = new AddOrderRequest(pizzaId, pizzaSize, toppingIds);
             console.log(request);
-            addOrder(request);
+            addOrder(request)
+              .unwrap()
+              .then(() => {
+                // toast.success("Order submitted successfully");
+              })
+              .catch(() => {
+                // toast.error("An error has occured");
+              });
           })}
         >
           Order
         </Button>
+        <div className="flex-1" />
+        <div className="text-clr-text1 font-bold text-fs-h1 pr-10">
+          Price: {calculateOrderPrice} €
+        </div>
       </Modal.Footer>
     </>
   );

@@ -60,7 +60,7 @@ namespace Backend.API.Handlers
         private decimal CalculateFinalPrice(AddOrderRequest req)
         {
             decimal pizzaPrice = GetPizzaPriceBySize(req.PizzaSize) + req.ToppingIds.Count() * Config.ToppingPrice;
-            int discountPercentage = req.ToppingIds.Count > Config.DiscountThreshold ? Config.DiscountPercentage : 0;
+            int discountPercentage = req.ToppingIds.Count >= Config.DiscountThreshold ? Config.DiscountPercentage : 0;
             return pizzaPrice * (100 - discountPercentage) / 100;
         }
 
