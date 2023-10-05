@@ -1,3 +1,4 @@
+import React from "react";
 import PizzaCard from "../components/PizzaCard";
 import { useGetPizzasQuery } from "../data/redux/ApiSlice";
 
@@ -8,10 +9,10 @@ function AddOrderPage() {
       <div>
         <h1 className="font-bold p-5 text-fs-h1">Pizzas</h1>
         {data?.map((x) => (
-          <>
+          <React.Fragment key={x.id}>
             <hr className="mx-5" />
             <PizzaCard pizza={x} />
-          </>
+          </React.Fragment>
         ))}
       </div>
     </section>

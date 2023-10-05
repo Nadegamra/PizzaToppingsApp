@@ -6,6 +6,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;
 {
+    services.AddCors((options) =>
+        {
+            options.AddDefaultPolicy(policy =>
+            {
+                policy.WithOrigins("https://localhost:3000", "http://localhost:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+            });
+        });
+
     services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase(databaseName: "Pizzas"));
 
     services.AddControllers();
@@ -20,6 +31,8 @@ var services = builder.Services;
 
 var app = builder.Build();
 {
+    app.UseCors();
+
     using (var scope = app.Services.CreateScope())
     {
         var serviceProvider = scope.ServiceProvider;
