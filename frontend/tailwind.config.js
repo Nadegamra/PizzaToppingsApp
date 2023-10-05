@@ -37,7 +37,8 @@ export default {
       "fs-icon-lg": "32px",
     },
     backgroundImage: {
-      mainBg: "url('/public/background.webp')",
+      mainBg: "url('/background.webp')",
+      pizza: "url('/pizza.jpg')",
     },
   },
 };
