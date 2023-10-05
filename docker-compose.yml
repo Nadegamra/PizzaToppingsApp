@@ -12,7 +12,6 @@ services:
       target: dev
     volumes:
       - './frontend:/app'
-      - 'exclude:/app/node_modules'
     ports:
       - 3000:3000
     environment:
