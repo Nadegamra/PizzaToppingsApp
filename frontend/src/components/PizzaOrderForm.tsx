@@ -59,7 +59,7 @@ function PizzaOrderForm({ pizzaId }: { pizzaId: number }) {
       price *= 0.9;
     }
 
-    return price;
+    return price.toFixed(2);
   }, [watch("pizzaSize"), watch("toppingIds")]);
 
   return (

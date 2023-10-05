@@ -6,20 +6,20 @@ export class OrderResponse {
   pizza: Pizza;
   price: number;
   pizzaSize: PizzaSize;
-  toppings: Topping;
+  orderToppings: Topping[];
 
   constructor(
     id: number,
     pizza: Pizza,
     price: number,
     pizzaSize: PizzaSize,
-    toppings: Topping
+    toppings: Topping[]
   ) {
     this.id = id;
     this.pizza = pizza;
     this.price = price;
     this.pizzaSize = pizzaSize;
-    this.toppings = toppings;
+    this.orderToppings = toppings;
   }
 }
 
