@@ -13,10 +13,10 @@ namespace Backend.Test
             Mock<AppDbContext> dbMock = AppDbContextMock.GetMock();
             var handler = new PizzasHandler(dbMock.Object);
 
-            var expectedData = DefaultData.GetPizzas();
-            var actualData = await handler.GetPizzaListAsync();
+            var expectedResult = JsonSerializer.Serialize(DefaultData.GetPizzas());
+            var actualResult = JsonSerializer.Serialize(await handler.GetPizzaListAsync());
 
-            Assert.Equal(JsonSerializer.Serialize(expectedData), JsonSerializer.Serialize(actualData));
+            Assert.Equal(expectedResult, actualResult);
 
         }
     }

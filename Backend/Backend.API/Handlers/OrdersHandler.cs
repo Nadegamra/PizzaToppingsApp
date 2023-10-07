@@ -21,7 +21,7 @@ namespace Backend.API.Handlers
             order.Price = CalculateFinalPrice(req);
 
             var res = await dbContext.Orders.AddAsync(order);
-
+            await dbContext.SaveChangesAsync();
             List<OrderTopping> orderToppings = new List<OrderTopping>();
             foreach (var toppingId in req.ToppingIds)
             {

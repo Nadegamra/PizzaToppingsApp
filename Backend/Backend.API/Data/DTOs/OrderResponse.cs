@@ -21,6 +21,7 @@ namespace Backend.API.Data.DTOs
                 Price = o.Price,
                 OrderToppings = o.OrderToppings.Select(x => x.Topping).ToList()
             };
+
         }
     }
 }
