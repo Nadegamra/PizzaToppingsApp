@@ -7,7 +7,7 @@ Create a web application to calculate a pizza order’s total cost and review su
 - [x] The application should calculate the total cost of the order based on the size and toppings selected.
 - [x] The application should display the total cost of the order to the user.
 - [x] User should be able to save orders and view all saved orders in a list.
-- [x] Oder list should be on a separate page.
+- [x] Order list should be on a separate page.
 
 Calculation rules:\
 • The cost of the pizza should be based on the size selected. Small pizzas cost €8, medium pizzas cost
@@ -24,4 +24,7 @@ Material UI.\
 - [x] Unit tests in the backend.
 - [ ] Web app deployed and accessible via a public URL.
 ## Launch instructions
-Execute `docker compose up` from project root
+### Development build
+Execute `docker compose -f docker-compose.yml -f docker-compose.dev.yml up` from project root
+### Production build
+Execute `docker compose -f docker-compose.yml -f docker-compose.prod.yml up` from project root
