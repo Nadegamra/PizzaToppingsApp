@@ -2,17 +2,10 @@ version: '3.7'
 name: pizza
 
 services:
-  frontend_cra:
+  frontend:
     container_name: pizza_frontend
     image: pizza_frontend:dev
     restart: unless-stopped
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile
-      target: dev
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
     ports:
       - 3000:3000
     environment:
@@ -23,14 +16,10 @@ services:
     container_name: pizza_api
     image: pizza_api:dev
     restart: unless-stopped
-    build:
-      context: .
-      dockerfile: Backend/Backend.API/Dockerfile
     volumes:
       - ./Backend/Backend.API:/src
       - /src/obj/
       - /src/bin/
-      - .certs:/certs
     environment:
       ASPNETCORE_ENVIRONMENT: 'Development'
       ASPNETCORE_URLS: 'https://+:443;http://+:80'

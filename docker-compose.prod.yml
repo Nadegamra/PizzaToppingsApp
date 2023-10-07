@@ -1,0 +1,11 @@
+services:
+  frontend:
+      build:
+        context: .
+        dockerfile: frontend/Dockerfile
+        target: prod
+  backend:
+      build:
+        context: .
+        dockerfile: Backend/Backend.API/Dockerfile
+        target: prod

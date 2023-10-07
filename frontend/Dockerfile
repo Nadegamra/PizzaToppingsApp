@@ -9,3 +9,8 @@ COPY ./frontend .
 RUN npm i
 CMD ["npm", "run", "dev"]
 #-----------------------------
+FROM base AS prod
+COPY ./frontend .
+RUN npm ci
+RUN npm run build
+CMD ["npm", "run", "preview"]
