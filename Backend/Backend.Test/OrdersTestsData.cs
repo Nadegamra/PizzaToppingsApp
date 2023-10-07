@@ -5,7 +5,7 @@ using Backend.API.Data.Models;
 
 namespace Backend.Test
 {
-    public class TestData
+    public class OrdersTestsData
     {
         private static List<Pizza> pizzas = DefaultData.GetPizzas();
         private static List<Topping> toppings = DefaultData.GetToppings();
