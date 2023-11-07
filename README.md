@@ -23,7 +23,7 @@ Material UI.\
 • All calculation logic must be implemented in the back end.\
 ### Nice to have (optional)
 - [x] Unit tests in the backend.
-- [x] Web app deployed and accessible via a public URL.
+- [x] Web app deployed and accessible via a [here](https://nadegamrapizzaapp.azurewebsites.net/).
 ## Tech Stack
 The app consists of:
 - .NET 7.0 WebApi with EF Core in-memory database
