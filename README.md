@@ -1,6 +1,7 @@
-# Present Connection Internship Technical assignment
+# Pizzas toppings selection app
 ## The task
 ### Task Description
+This intership admission technical assignment for PresentConnection
 Create a web application to calculate a pizza order’s total cost and review submitted orders.
 ### Functional requirements
 - [x] The application should allow users to select the size and toppings for their pizza order.
@@ -22,7 +23,12 @@ Material UI.\
 • All calculation logic must be implemented in the back end.\
 ### Nice to have (optional)
 - [x] Unit tests in the backend.
-- [ ] Web app deployed and accessible via a public URL.
+- [x] Web app deployed and accessible via a public URL.
+## Tech Stack
+The app consists of:
+- .NET 7.0 WebApi with EF Core in-memory database
+- React.js + Typescript + Tailwind frontend
+- Nginx proxy used for mapping requests for ports 80 and 443 to backend/frontend
 ## Launch instructions
 ### Development build
 Execute `docker compose -f docker-compose.yml -f docker-compose.dev.yml up` from project root
