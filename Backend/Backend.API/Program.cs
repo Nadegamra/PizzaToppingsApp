@@ -10,7 +10,7 @@ var services = builder.Services;
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.WithOrigins("https://localhost:3000", "http://localhost:3000")
+                policy.WithOrigins("http://localhost", "https://localhost")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();

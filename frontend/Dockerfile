@@ -11,7 +11,6 @@ CMD ["npm", "run", "dev"]
 #-----------------------------
 FROM base AS prod
 COPY ./frontend .
-RUN npm ci --omit=dev
-RUN npm i typescript
+RUN npm ci
 RUN npm run build
 CMD ["npm", "run", "preview"]
