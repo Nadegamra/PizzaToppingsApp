@@ -2,45 +2,31 @@ version: '3.7'
 name: pizza
 
 services:
-  frontend_cra:
+  frontend:
     container_name: pizza_frontend
-    image: pizza_frontend:dev
+    image: nadegamra.azurecr.io/pizza_frontend:1.0
     restart: unless-stopped
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile
-      target: dev
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    ports:
-      - 3000:3000
     environment:
       - WDS_SOCKET_HOST=127.0.0.1 
-      - CHOKIDAR_USEPOLLING=true
-      - WATCHPACK_POLLING=true
   backend:
     container_name: pizza_api
-    image: pizza_api:dev
+    image: nadegamra.azurecr.io/pizza_api:1.0
     restart: unless-stopped
-    build:
-      context: .
-      dockerfile: Backend/Backend.API/Dockerfile
-    volumes:
-      - ./Backend/Backend.API:/src
-      - /src/obj/
-      - /src/bin/
-      - .certs:/certs
     environment:
-      ASPNETCORE_ENVIRONMENT: 'Development'
       ASPNETCORE_URLS: 'https://+:443;http://+:80'
       ASPNETCORE_Kestrel__Certificates__Default__Path: /certs/localhost.crt
       ASPNETCORE_Kestrel__Certificates__Default__KeyPath: /certs/localhost.key
-    ports:
-      - "44444:80"
-      - "44445:443"
     working_dir: /src
+  proxy:
+    container_name: proxy
+    image: nadegamra.azurecr.io/pizza_proxy:1.0
+    build: .
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - frontend
+      - backend
 networks:
   default:
     name: pizza
-

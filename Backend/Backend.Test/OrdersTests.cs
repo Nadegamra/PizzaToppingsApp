@@ -15,7 +15,7 @@ namespace Backend.Test
             Mock<AppDbContext> dbMock = AppDbContextMock.GetMock();
             var handler = new OrdersHandler(dbMock.Object);
 
-            var testData = TestData.OrderRequests.Zip(TestData.OrderResponses, (first, second) => new Tuple<AddOrderRequest, OrderResponse>(first, second));
+            var testData = OrdersTestsData.OrderRequests.Zip(OrdersTestsData.OrderResponses, (first, second) => new Tuple<AddOrderRequest, OrderResponse>(first, second));
 
             foreach (var item in testData)
             {
@@ -35,7 +35,7 @@ namespace Backend.Test
         {
             Mock<AppDbContext> dbMock = AppDbContextMock.GetMock();
             var handler = new OrdersHandler(dbMock.Object);
-            var addRequests = TestData.OrderRequests;
+            var addRequests = OrdersTestsData.OrderRequests;
             foreach (var request in addRequests)
             {
                 await handler.AddOrderAsync(request);
@@ -48,7 +48,7 @@ namespace Backend.Test
                 responses.Add(OrderResponse.FromEntity(item));
             }
             var actualString = JsonSerializer.Serialize(responses);
-            var expectedString = JsonSerializer.Serialize(TestData.OrderResponses);
+            var expectedString = JsonSerializer.Serialize(OrdersTestsData.OrderResponses);
 
             Assert.Equal(expectedString, actualString);
         }

@@ -12,33 +12,33 @@ const apiSlice = createApi({
   endpoints: (builder) => ({
     getPizzas: builder.query<Pizza[], undefined>({
       query: () => ({
-        url: "http://localhost:44444/api/pizzas/all",
+        url: `/api/pizzas/all`,
         method: "GET",
       }),
     }),
     getToppings: builder.query<Topping[], undefined>({
       query: () => ({
-        url: "http://localhost:44444/api/toppings/all",
+        url: `/api/toppings/all`,
         method: "GET",
       }),
     }),
     getOrders: builder.query<OrderResponse[], undefined>({
       query: () => ({
-        url: "http://localhost:44444/api/orders/all",
+        url: `/api/orders/all`,
         method: "GET",
       }),
       providesTags: ["ORDER"],
     }),
     getOrder: builder.query<OrderResponse, number>({
       query: (id) => ({
-        url: `http://localhost:44444/api/orders?id=${id}`,
+        url: `/api/orders?id=${id}`,
         method: "GET",
       }),
       providesTags: ["ORDER"],
     }),
     addOrder: builder.mutation<boolean, AddOrderRequest>({
       query: (request) => ({
-        url: "http://localhost:44444/api/orders",
+        url: `/api/orders`,
         method: "POST",
         body: JSON.stringify(request),
         headers: {

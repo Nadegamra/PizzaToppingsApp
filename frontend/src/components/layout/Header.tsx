@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Header() {
   return (
-    <header className="bg-clr-bg3 p-5 flex w-screen">
+    <header className="bg-clr-bg3 p-5 flex">
       <a href="#main-content" className="sr-only">
         Skip to main content
       </a>
