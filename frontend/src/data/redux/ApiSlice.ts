@@ -12,26 +12,26 @@ const apiSlice = createApi({
   endpoints: (builder) => ({
     getPizzas: builder.query<Pizza[], undefined>({
       query: () => ({
-        url: `/api/pizzas/all`,
+        url: `/api/pizzas`,
         method: "GET",
       }),
     }),
     getToppings: builder.query<Topping[], undefined>({
       query: () => ({
-        url: `/api/toppings/all`,
+        url: `/api/toppings`,
         method: "GET",
       }),
     }),
     getOrders: builder.query<OrderResponse[], undefined>({
       query: () => ({
-        url: `/api/orders/all`,
+        url: `/api/orders`,
         method: "GET",
       }),
       providesTags: ["ORDER"],
     }),
     getOrder: builder.query<OrderResponse, number>({
       query: (id) => ({
-        url: `/api/orders?id=${id}`,
+        url: `/api/orders/${id}`,
         method: "GET",
       }),
       providesTags: ["ORDER"],

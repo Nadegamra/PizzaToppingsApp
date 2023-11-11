@@ -8,25 +8,18 @@ namespace Backend.API.Controllers
     [Route("/api/pizzas/")]
     public class PizzasController : ControllerBase
     {
-        private readonly PizzasHandler handler;
+        private readonly IPizzasHandler handler;
 
-        public PizzasController(PizzasHandler handler)
+        public PizzasController(IPizzasHandler handler)
         {
             this.handler = handler;
         }
 
-        [HttpGet("all")]
-        public async Task<ActionResult<List<Pizza>>> GetPizzaListAsync()
+        [HttpGet]
+        public ActionResult<IEnumerable<Pizza>> GetPizzaList()
         {
-            try
-            {
-                var result = await handler.GetPizzaListAsync();
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var result = handler.GetPizzaList();
+            return Ok(result);
         }
     }
 }

@@ -1,5 +1,7 @@
 using Backend.API.Data;
+using Backend.API.Data.Models;
 using Backend.API.Handlers;
+using Backend.API.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,10 +25,12 @@ var services = builder.Services;
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen();
 
-    services.AddTransient<OrdersHandler>();
-    services.AddTransient<PizzasHandler>();
-    services.AddTransient<ToppingsHandler>();
-
+    services.AddTransient<IOrdersHandler, OrdersHandler>();
+    services.AddTransient<IPizzasHandler, PizzasHandler>();
+    services.AddTransient<IToppingsHandler, ToppingsHandler>();
+    services.AddTransient<IRepository<Pizza>, PizzaRepository>();
+    services.AddTransient<IRepository<Topping>, ToppingsRepository>();
+    services.AddTransient<IRepository<Order>, OrdersRepository>();
 }
 
 var app = builder.Build();
@@ -44,6 +48,11 @@ var app = builder.Build();
     {
         app.UseSwagger();
         app.UseSwaggerUI();
+        app.UseDeveloperExceptionPage();
+    }
+    else
+    {
+        app.UseExceptionHandler("/error");
     }
 
     app.MapControllers();
