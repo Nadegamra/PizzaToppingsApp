@@ -4,11 +4,9 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useEffect, useMemo } from "react";
 import { PizzaSize } from "../../data/dtos/OrderResponse";
-import {
-  useAddOrderMutation,
-  useGetToppingsQuery,
-} from "../../data/redux/ApiSlice";
 import { AddOrderRequest } from "../../data/dtos/AddOrderRequest";
+import { useAddOrderMutation } from "../../data/features/ApiSliceOrders";
+import { useGetToppingsQuery } from "../../data/features/ApiSliceToppings";
 
 interface FormProps {
   pizzaSize: PizzaSize;

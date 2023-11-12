@@ -19,13 +19,6 @@ namespace Backend.API.Handlers
             Order order = req.ToEntity();
             order.Price = CalculateFinalPrice(req);
 
-            List<OrderTopping> orderToppings = new List<OrderTopping>();
-            foreach (var toppingId in req.ToppingIds)
-            {
-                orderToppings.Add(new OrderTopping { ToppingId = toppingId });
-            }
-            order.OrderToppings = orderToppings;
-
             var res = repository.Add(order);
             return OrderResponse.FromEntity(res.Entity);
         }

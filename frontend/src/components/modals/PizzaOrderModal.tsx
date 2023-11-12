@@ -1,5 +1,5 @@
 import { Modal } from "flowbite-react";
-import PizzaOrderForm from "./PizzaOrderForm";
+import PizzaOrderForm from "../forms/PizzaOrderForm";
 import { Pizza } from "../../data/dtos/Pizza";
 
 interface Props {
