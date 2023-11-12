@@ -7,6 +7,7 @@ import { PizzaSize } from "../../data/dtos/OrderResponse";
 import { AddOrderRequest } from "../../data/dtos/AddOrderRequest";
 import { useAddOrderMutation } from "../../data/features/ApiSliceOrders";
 import { useGetToppingsQuery } from "../../data/features/ApiSliceToppings";
+import RadioArray, { RadioItem } from "./RadioArray";
 
 interface FormProps {
   pizzaSize: PizzaSize;
@@ -54,6 +55,24 @@ function PizzaOrderForm({ pizzaId }: { pizzaId: number }) {
     return price.toFixed(2);
   }, [watch("pizzaSize"), watch("toppingIds")]);
 
+  const radios: RadioItem[] = [
+    {
+      label: "Small",
+      setValue: () => setValue("pizzaSize", PizzaSize.Small),
+      value: PizzaSize.Small,
+    },
+    {
+      label: "Medium",
+      setValue: () => setValue("pizzaSize", PizzaSize.Medium),
+      value: PizzaSize.Medium,
+    },
+    {
+      label: "Large",
+      setValue: () => setValue("pizzaSize", PizzaSize.Large),
+      value: PizzaSize.Large,
+    },
+  ];
+
   return (
     <>
       <Modal.Body>
@@ -61,44 +80,11 @@ function PizzaOrderForm({ pizzaId }: { pizzaId: number }) {
           className="flex max-w-md flex-col gap-4 text-clr-text1 select-none"
           id="radio"
         >
-          <legend className="mb-4 font-bold">Select the pizza size</legend>
-          <div className="flex items-center gap-2">
-            <Radio
-              defaultChecked
-              onClick={() => setValue("pizzaSize", PizzaSize.Small)}
-              className="cursor-pointer"
-              id="small"
-              name="size"
-              value={PizzaSize.Small}
-            />
-            <Label className="cursor-pointer" htmlFor="small">
-              Small
-            </Label>
-          </div>
-          <div className="flex items-center gap-2">
-            <Radio
-              onClick={() => setValue("pizzaSize", PizzaSize.Medium)}
-              className="cursor-pointer"
-              id="medium"
-              name="size"
-              value={PizzaSize.Medium}
-            />
-            <Label className="cursor-pointer" htmlFor="medium">
-              Medium
-            </Label>
-          </div>
-          <div className="flex items-center gap-2">
-            <Radio
-              onClick={() => setValue("pizzaSize", PizzaSize.Large)}
-              className="cursor-pointer"
-              id="large"
-              name="size"
-              value={PizzaSize.Large}
-            />
-            <Label className="cursor-pointer" htmlFor="large">
-              Large
-            </Label>
-          </div>
+          <RadioArray
+            headerText="Select the pizza size"
+            defaultValue={PizzaSize.Small}
+            radioItems={radios}
+          />
           <legend className="font-bold">
             Select toppings
             <span className="text-clr-text2 text-fs-h4 ml-3">
