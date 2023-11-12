@@ -18,6 +18,16 @@ const ApiSliceOrders = apiSlice.injectEndpoints({
       }),
       providesTags: ["ORDER"],
     }),
+    getPrice: builder.mutation<number, AddOrderRequest>({
+      query: (request) => ({
+        url: `/api/orders/price`,
+        method: "POST",
+        body: JSON.stringify(request),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
     addOrder: builder.mutation<boolean, AddOrderRequest>({
       query: (request) => ({
         url: `/api/orders`,
@@ -32,5 +42,9 @@ const ApiSliceOrders = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetOrdersQuery, useGetOrderQuery, useAddOrderMutation } =
-  ApiSliceOrders;
+export const {
+  useGetOrdersQuery,
+  useGetPriceMutation,
+  useGetOrderQuery,
+  useAddOrderMutation,
+} = ApiSliceOrders;

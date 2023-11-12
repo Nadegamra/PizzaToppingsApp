@@ -34,7 +34,7 @@ namespace Backend.API.Handlers
             return repository.GetAll().Select(OrderResponse.FromEntity);
         }
 
-        private decimal CalculateFinalPrice(AddOrderRequest req)
+        public decimal CalculateFinalPrice(AddOrderRequest req)
         {
             decimal pizzaPrice = GetPizzaPriceBySize(req.PizzaSize) + req.ToppingIds.Count() * Config.ToppingPrice;
             int discountPercentage = req.ToppingIds.Count >= Config.DiscountThreshold ? Config.DiscountPercentage : 0;

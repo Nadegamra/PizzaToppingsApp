@@ -35,5 +35,11 @@ namespace Backend.API.Controllers
             var result = handler.GetOrderList();
             return Ok(result);
         }
+        [HttpPost("price")]
+        public ActionResult<decimal> CalculatePrice(AddOrderRequest req)
+        {
+            var result = handler.CalculateFinalPrice(req);
+            return Ok(result);
+        }
     }
 }
