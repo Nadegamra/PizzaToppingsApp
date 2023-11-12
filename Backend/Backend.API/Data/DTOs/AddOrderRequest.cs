@@ -13,11 +13,20 @@ namespace Backend.API.Data.DTOs
 
         public Order ToEntity()
         {
-            return new Order
+            var order = new Order
             {
                 PizzaId = PizzaId,
                 PizzaSize = PizzaSize,
             };
+
+            List<OrderTopping> orderToppings = new List<OrderTopping>();
+            foreach (var toppingId in ToppingIds)
+            {
+                orderToppings.Add(new OrderTopping { ToppingId = toppingId });
+            }
+            order.OrderToppings = orderToppings;
+
+            return order;
         }
     }
 }

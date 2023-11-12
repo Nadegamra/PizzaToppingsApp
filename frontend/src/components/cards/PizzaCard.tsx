@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Pizza } from "../../data/dtos/Pizza";
-import PizzaOrderModal from "../addOrderPage/PizzaOrderModal";
+import PizzaOrderModal from "../modals/PizzaOrderModal";
 
 function PizzaCard({ pizza }: { pizza: Pizza }) {
   const [openModal, setOpenModal] = useState<boolean>(false);

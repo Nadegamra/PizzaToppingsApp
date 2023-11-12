@@ -8,25 +8,18 @@ namespace Backend.API.Controllers
     [Route("/api/toppings/")]
     public class ToppingsController : ControllerBase
     {
-        private readonly ToppingsHandler handler;
+        private readonly IToppingsHandler handler;
 
-        public ToppingsController(ToppingsHandler handler)
+        public ToppingsController(IToppingsHandler handler)
         {
             this.handler = handler;
         }
 
-        [HttpGet("all")]
-        public async Task<ActionResult<List<Topping>>> GetToppingListAsync()
+        [HttpGet]
+        public ActionResult<IEnumerable<Topping>> GetToppingListAsync()
         {
-            try
-            {
-                var result = await handler.GetToppingListAsync();
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var result = handler.GetToppingList();
+            return Ok(result);
         }
     }
 }

@@ -1,19 +1,20 @@
-import React from "react";
-import { useGetOrdersQuery } from "../data/redux/ApiSlice";
-import OrderCard from "./orderListPage/OrderCard";
+import OrderCard from "../components/cards/OrderCard";
+import Card from "../components/cards/Card";
+import CardItem from "../components/cards/CardItem";
+import { useGetOrdersQuery } from "../data/features/ApiSliceOrders";
+import CardHeader from "../components/cards/CardHeader";
 
 function OrderListPage() {
   const { data } = useGetOrdersQuery(undefined);
   return (
-    <section className="bg-clr-bg1 w-[500px] mx-auto rounded-2xl my-10 py-5">
-      <h1 className="font-bold px-5 pb-5 text-fs-h1">Orders</h1>
+    <Card>
+      <CardHeader>Orders</CardHeader>
       {data?.map((x) => (
-        <React.Fragment key={x.id}>
-          <hr className="mx-5 border-t-[3px]" />
+        <CardItem id={x.id}>
           <OrderCard order={x} />
-        </React.Fragment>
+        </CardItem>
       ))}
-    </section>
+    </Card>
   );
 }
 

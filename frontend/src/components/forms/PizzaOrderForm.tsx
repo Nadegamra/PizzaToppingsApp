@@ -1,14 +1,16 @@
-import { Button, Checkbox, Label, Modal, Radio } from "flowbite-react";
+import { Button, Checkbox, Label, Modal } from "flowbite-react";
 
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { useEffect, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { PizzaSize } from "../../data/dtos/OrderResponse";
+import { AddOrderRequest } from "../../data/dtos/AddOrderRequest";
 import {
   useAddOrderMutation,
-  useGetToppingsQuery,
-} from "../../data/redux/ApiSlice";
-import { AddOrderRequest } from "../../data/dtos/AddOrderRequest";
+  useGetPriceMutation,
+} from "../../data/features/ApiSliceOrders";
+import { useGetToppingsQuery } from "../../data/features/ApiSliceToppings";
+import RadioArray, { RadioItem } from "./RadioArray";
 
 interface FormProps {
   pizzaSize: PizzaSize;
@@ -20,6 +22,8 @@ function PizzaOrderForm({ pizzaId }: { pizzaId: number }) {
   const [addOrder] = useAddOrderMutation();
   const { register, handleSubmit, setValue, getValues, watch, reset } =
     useForm<FormProps>();
+  const [getPrice] = useGetPriceMutation();
+  const [price, setPrice] = useState<string>("0.00");
 
   useEffect(() => {
     const defaultValues: FormProps = {
@@ -29,32 +33,32 @@ function PizzaOrderForm({ pizzaId }: { pizzaId: number }) {
     reset({ ...defaultValues });
   }, []);
 
-  const calculateOrderPrice = useMemo(() => {
+  useEffect(() => {
     const props = getValues();
     const size = props.pizzaSize;
     const toppings = props.toppingIds;
-    let price = 0;
-
-    switch (size) {
-      case PizzaSize.Small:
-        price += 8;
-        break;
-      case PizzaSize.Medium:
-        price += 10;
-        break;
-      case PizzaSize.Large:
-        price += 12;
-        break;
-    }
-
-    price += toppings?.length ?? 0;
-
-    if ((toppings?.length ?? 0) > 3) {
-      price *= 0.9;
-    }
-
-    return price.toFixed(2);
+    getPrice(new AddOrderRequest(pizzaId, size, toppings))
+      .unwrap()
+      .then((x) => setPrice(x.toFixed(2)));
   }, [watch("pizzaSize"), watch("toppingIds")]);
+
+  const radios: RadioItem[] = [
+    {
+      label: "Small",
+      setValue: () => setValue("pizzaSize", PizzaSize.Small),
+      value: PizzaSize.Small,
+    },
+    {
+      label: "Medium",
+      setValue: () => setValue("pizzaSize", PizzaSize.Medium),
+      value: PizzaSize.Medium,
+    },
+    {
+      label: "Large",
+      setValue: () => setValue("pizzaSize", PizzaSize.Large),
+      value: PizzaSize.Large,
+    },
+  ];
 
   return (
     <>
@@ -63,44 +67,11 @@ function PizzaOrderForm({ pizzaId }: { pizzaId: number }) {
           className="flex max-w-md flex-col gap-4 text-clr-text1 select-none"
           id="radio"
         >
-          <legend className="mb-4 font-bold">Select the pizza size</legend>
-          <div className="flex items-center gap-2">
-            <Radio
-              defaultChecked
-              onClick={() => setValue("pizzaSize", PizzaSize.Small)}
-              className="cursor-pointer"
-              id="small"
-              name="size"
-              value={PizzaSize.Small}
-            />
-            <Label className="cursor-pointer" htmlFor="small">
-              Small
-            </Label>
-          </div>
-          <div className="flex items-center gap-2">
-            <Radio
-              onClick={() => setValue("pizzaSize", PizzaSize.Medium)}
-              className="cursor-pointer"
-              id="medium"
-              name="size"
-              value={PizzaSize.Medium}
-            />
-            <Label className="cursor-pointer" htmlFor="medium">
-              Medium
-            </Label>
-          </div>
-          <div className="flex items-center gap-2">
-            <Radio
-              onClick={() => setValue("pizzaSize", PizzaSize.Large)}
-              className="cursor-pointer"
-              id="large"
-              name="size"
-              value={PizzaSize.Large}
-            />
-            <Label className="cursor-pointer" htmlFor="large">
-              Large
-            </Label>
-          </div>
+          <RadioArray
+            headerText="Select the pizza size"
+            defaultValue={PizzaSize.Small}
+            radioItems={radios}
+          />
           <legend className="font-bold">
             Select toppings
             <span className="text-clr-text2 text-fs-h4 ml-3">
@@ -143,7 +114,7 @@ function PizzaOrderForm({ pizzaId }: { pizzaId: number }) {
         </Button>
         <div className="flex-1" />
         <div className="text-clr-text1 font-bold text-fs-h1 pr-10">
-          Price: {calculateOrderPrice} €
+          Price: {price}€
         </div>
       </Modal.Footer>
     </>
