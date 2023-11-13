@@ -20,7 +20,7 @@ namespace Backend.API.Handlers
             order.Price = CalculateFinalPrice(req);
 
             var res = repository.Add(order);
-            return OrderResponse.FromEntity(res.Entity);
+            return OrderResponse.FromEntity(res);
         }
 
         public OrderResponse? GetOrder(int id)

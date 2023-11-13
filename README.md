@@ -34,3 +34,7 @@ The app consists of:
 Execute `docker compose -f docker-compose.yml -f docker-compose.dev.yml up` from project root
 ### Production build
 Execute `docker compose -f docker-compose.yml -f docker-compose.prod.yml up` from project root
+## API reference
+- [PizzasController](docs/PizzasController.md)
+- [ToppingsController](docs/ToppingsController.md)
+- [OrdersController](docs/OrdersController.md)

@@ -6,8 +6,8 @@ namespace Backend.API.Repositories
     {
         T? Get(int id);
         IEnumerable<T> GetAll();
-        EntityEntry<T> Add(T entity);
-        EntityEntry<T> Update(T entity);
-        EntityEntry<T> Delete(T entity);
+        T Add(T entity);
+        T Update(T entity);
+        T Delete(T entity);
     }
 }

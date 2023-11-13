@@ -1,6 +1,5 @@
 using Backend.API.Data;
 using Backend.API.Data.Models;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Backend.API.Repositories
 {
@@ -13,18 +12,18 @@ namespace Backend.API.Repositories
             this.dbContext = dbContext;
         }
 
-        public EntityEntry<Pizza> Add(Pizza entity)
+        public Pizza Add(Pizza entity)
         {
             var res = dbContext.Add(entity);
             dbContext.SaveChanges();
-            return res;
+            return Get(res.Entity.Id);
         }
 
-        public EntityEntry<Pizza> Delete(Pizza entity)
+        public Pizza Delete(Pizza entity)
         {
             var res = dbContext.Remove(entity);
             dbContext.SaveChanges();
-            return res;
+            return res.Entity;
         }
 
         public Pizza? Get(int id)
@@ -37,11 +36,11 @@ namespace Backend.API.Repositories
             return dbContext.Pizzas;
         }
 
-        public EntityEntry<Pizza> Update(Pizza entity)
+        public Pizza Update(Pizza entity)
         {
             var res = dbContext.Update(entity);
             dbContext.SaveChanges();
-            return res;
+            return Get(res.Entity.Id);
         }
     }
 }

@@ -1,6 +1,5 @@
 using Backend.API.Data;
 using Backend.API.Data.Models;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Backend.API.Repositories
 {
@@ -12,18 +11,18 @@ namespace Backend.API.Repositories
             this.dbContext = dbContext;
         }
 
-        public EntityEntry<Topping> Add(Topping entity)
+        public Topping Add(Topping entity)
         {
             var res = dbContext.Toppings.Add(entity);
             dbContext.SaveChanges();
-            return res;
+            return Get(res.Entity.Id);
         }
 
-        public EntityEntry<Topping> Delete(Topping entity)
+        public Topping Delete(Topping entity)
         {
             var res = dbContext.Toppings.Remove(entity);
             dbContext.SaveChanges();
-            return res;
+            return res.Entity;
         }
 
         public Topping? Get(int id)
@@ -36,11 +35,11 @@ namespace Backend.API.Repositories
             return dbContext.Toppings;
         }
 
-        public EntityEntry<Topping> Update(Topping entity)
+        public Topping Update(Topping entity)
         {
             var res = dbContext.Toppings.Update(entity);
             dbContext.SaveChanges();
-            return res;
+            return Get(res.Entity.Id);
         }
     }
 }
