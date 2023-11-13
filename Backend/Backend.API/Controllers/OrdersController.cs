@@ -16,21 +16,21 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        public ActionResult<bool> AddOrderAsync(AddOrderRequest req)
+        public ActionResult<bool> AddOrder(AddOrderRequest req)
         {
             var res = handler.AddOrder(req);
             return Created($"/api/orders/{res.Id}", res);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<OrderResponse> GetOrderAsync(int id)
+        public ActionResult<OrderResponse> GetOrder(int id)
         {
             var result = handler.GetOrder(id);
             return result is null ? NotFound() : Ok(result);
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<OrderResponse>> GetOrderListAsync()
+        public ActionResult<IEnumerable<OrderResponse>> GetOrderList()
         {
             var result = handler.GetOrderList();
             return Ok(result);

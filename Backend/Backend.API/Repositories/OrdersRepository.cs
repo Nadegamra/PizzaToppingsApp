@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Backend.API.Data;
 using Backend.API.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Backend.API.Repositories
 {
@@ -18,7 +13,7 @@ namespace Backend.API.Repositories
             this.dbContext = dbContext;
         }
 
-        public EntityEntry<Order> Add(Order entity)
+        public Order Add(Order entity)
         {
             var res = dbContext.Orders.Add(entity);
 
@@ -30,14 +25,14 @@ namespace Backend.API.Repositories
             dbContext.OrderToppings.AddRange(entity.OrderToppings);
             dbContext.SaveChanges();
 
-            return res;
+            return Get(res.Entity.Id);
         }
 
-        public EntityEntry<Order> Delete(Order entity)
+        public Order Delete(Order entity)
         {
             var res = dbContext.Orders.Remove(entity);
             dbContext.SaveChanges();
-            return res;
+            return res.Entity;
         }
 
         public Order? Get(int id)
@@ -55,11 +50,11 @@ namespace Backend.API.Repositories
                     .Include(x => x.Pizza);
         }
 
-        public EntityEntry<Order> Update(Order entity)
+        public Order Update(Order entity)
         {
             var res = dbContext.Orders.Update(entity);
             dbContext.SaveChanges();
-            return res;
+            return Get(res.Entity.Id);
         }
     }
 }
